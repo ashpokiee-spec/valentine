@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Valentine Surprise</title>
+<style>
+body{margin:0;font-family:'Segoe UI',sans-serif;overflow:hidden;}
+.center{display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;text-align:center;}
+#start{background:black;color:white;}
+button{padding:12px 22px;margin:10px;border:none;border-radius:30px;font-size:18px;cursor:pointer;transition:.3s;}
+.yes{background:#ff4d6d;color:white;}
+.no{background:#444;color:white;}
+button:hover{transform:scale(1.1);}
+
+/* Romantic Page */
+#romantic{display:none;background:linear-gradient(120deg,#ffd6e7,#ffe6eb,#ffc2d1);color:#8b004f;position:relative;overflow:hidden;}
+.watermark{position:absolute;top:0;left:0;width:100%;height:100%;background:url('kiss.png') center/cover no-repeat;opacity:.15;}
+.message{font-size:28px;max-width:700px;padding:20px;z-index:2;white-space:pre-line;}
+.rose{position:absolute;font-size:22px;animation:fall 10s linear infinite;}
+@keyframes fall{0%{transform:translateY(-10vh)}100%{transform:translateY(110vh)}}
+</style>
+</head>
+<body>
+
+<div id="start" class="center">
+<h1 id="question"></h1>
+<div id="buttons" style="display:none">
+<button class="yes" onclick="yesClicked()">Yes</button>
+<button class="no" onclick="noClicked()">No</button>
+</div>
+<p id="wrong" style="color:red;font-size:20px;"></p>
+</div>
+
+<div id="romantic" class="center">
+<div class="watermark"></div>
+<h2 class="message" id="loveText"></h2>
+</div>
+
+<script>
+// Type question letter by letter
+const q = "Will you be my Valentine?";
+let i = 0;
+function typeQuestion() {
+    if(i < q.length){
+        document.getElementById('question').innerHTML += q.charAt(i);
+        i++;
+        setTimeout(typeQuestion,70);
+    } else document.getElementById('buttons').style.display = 'block';
+}
+typeQuestion();
+
+// Wrong answer
+function noClicked() {
+    document.getElementById('wrong').innerText = 'Wrong answer 😜 Try again';
+}
+
+// Yes clicked → romantic page
+function yesClicked() {
+    document.getElementById('start').style.display='none';
+    document.getElementById('romantic').style.display='flex';
+    createRoses();
+    typeLove();
+}
+
+// Love message
+const text = `You have already chosen as my Valentine.
+Waiting for a forehead kiss.
+ආදරෙයි සුදුමහත්තයා ❤️
+Happy Valentine's Day`;
+let j = 0;
+function typeLove() {
+    if(j < text.length){
+        document.getElementById('loveText').innerHTML += text.charAt(j);
+        j++;
+        setTimeout(typeLove,50);
+    }
+}
+
+// Falling roses
+function createRoses(){
+    for(let k=0;k<30;k++){
+        let r=document.createElement('div');
+        r.className='rose';
+        r.innerHTML='🌹';
+        r.style.left=Math.random()*100+'vw';
+        r.style.animationDuration=(6+Math.random()*6)+'s';
+        document.getElementById('romantic').appendChild(r);
+    }
+}
+</script>
+
+</body>
+</html>
